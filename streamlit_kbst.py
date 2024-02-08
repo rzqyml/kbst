@@ -12,22 +12,22 @@ col1, col2 = st.columns(2)
 
 # Input untuk pertanyaan-pertanyaan
 with col1:
-    sumber_air_minum_buruk = st.number_input('Apakah Sumber Air Minum Buruk?')
+    sumber_air_minum_buruk = st.number_input('Apakah Sumber Air Minum Buruk?', step=1, value=1)
 
 with col2:
-    sanitasi_buruk = st.number_input('Apakah Sanitasi Buruk?')
+    sanitasi_buruk = st.number_input('Apakah Sanitasi Buruk?', step=1, value=1)
 
 with col1:
-    terlalu_muda_istri = st.number_input('Apakah Istri Terlalu Muda?')
+    terlalu_muda_istri = st.number_input('Apakah Istri Terlalu Muda?', step=1, value=1)
 
 with col2:
-    terlalu_tua_istri = st.number_input('Apakah Istri Terlalu Tua?')
+    terlalu_tua_istri = st.number_input('Apakah Istri Terlalu Tua?', step=1, value=1)
 
 with col1:
-    terlalu_dekat_umur = st.number_input('Apakah Umur Suami & Istri Terlalu Dekat?')
+    terlalu_dekat_umur = st.number_input('Apakah Umur Suami & Istri Terlalu Dekat?', step=1, value=1)
 
 with col2:
-    terlalu_banyak_anak = st.number_input('Apakah Memiliki Banyak Anak?')
+    terlalu_banyak_anak = st.number_input('Apakah Memiliki Banyak Anak?', step=1, value=1)
 
 # variabel untuk hasil prediksi
 kbst_diagnosis = ''
