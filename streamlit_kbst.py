@@ -96,8 +96,9 @@ if st.button('Reset'):
 
         # Mengatur flag reset menjadi True setelah reset dilakukan
         st.session_state.reset_flag = True
-        # Mengatur flag reset menjadi False setelah reset dilakukan
-        st.session_state.reset_flag = False
+
+    # Mengatur flag reset menjadi False setelah reset dilakukan
+    st.session_state.reset_flag = False
 
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
