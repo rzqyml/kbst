@@ -22,22 +22,22 @@ default_values = {
 
 # Input untuk pertanyaan-pertanyaan
 with col1:
-    sumber_air_minum_buruk = st.number_input('Apakah Sumber Air Minum Buruk?', step=1, value=1)
+    sumber_air_minum_buruk = st.selectbox('Apakah Sumber Air Minum Buruk?', ['Tidak', 'Ya'])
 
 with col2:
-    sanitasi_buruk = st.number_input('Apakah Sanitasi Buruk?', step=1, value=1)
+    sanitasi_buruk = st.selectbox('Apakah Sanitasi Buruk?', ['Tidak', 'Ya'])
 
 with col1:
-    terlalu_muda_istri = st.number_input('Apakah Istri Terlalu Muda?', step=1, value=1)
+    terlalu_muda_istri = st.selectbox('Apakah Istri Terlalu Muda?', ['Tidak', 'Ya'])
 
 with col2:
-    terlalu_tua_istri = st.number_input('Apakah Istri Terlalu Tua?', step=1, value=1)
+    terlalu_tua_istri = st.selectbox('Apakah Istri Terlalu Tua?', ['Tidak', 'Ya'])
 
 with col1:
-    terlalu_dekat_umur = st.number_input('Apakah Umur Suami & Istri Terlalu Dekat?', step=1, value=1)
+    terlalu_dekat_umur = st.selectbox('Apakah Umur Suami & Istri Terlalu Dekat?', ['Tidak', 'Ya'])
 
 with col2:
-    terlalu_banyak_anak = st.number_input('Apakah Memiliki Banyak Anak?', step=1, value=1)
+    terlalu_banyak_anak = st.selectbox('Apakah Memiliki Banyak Anak?', ['Tidak', 'Ya'])
 
 # variabel untuk hasil prediksi
 kbst_diagnosis = ''
