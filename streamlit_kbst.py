@@ -85,6 +85,3 @@ if st.button('Reset'):
         'terlalu_tua_istri': default_values['terlalu_tua_istri'],
         'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
         'terlalu_banyak_anak': default
-
-# Menampilkan hasil prediksi
-st.success(f'Hasil Prediksi: {kbst_diagnosis}')
