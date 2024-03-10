@@ -22,6 +22,9 @@ default_values = {
 }
 
 # Mengecek dan menginisialisasi state jika belum ada
+if 'reset_flag' not in st.session_state:
+    st.session_state.reset_flag = False
+
 if 'state' not in st.session_state:
     st.session_state.state = {
         'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
@@ -31,9 +34,6 @@ if 'state' not in st.session_state:
         'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
         'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
     }
-
-# Flag untuk menandai reset
-reset_flag = False
 
 # Input untuk pertanyaan-pertanyaan
 with col1:
@@ -79,12 +79,12 @@ if st.button('Lakukan Prediksi'):
             kbst_diagnosis = 'Keluarga Tidak Beresiko Stunting'
 
         # Mengatur flag reset menjadi False setelah prediksi
-        reset_flag = False
+        st.session_state.reset_flag = False
 
 # Tombol reset untuk mengembalikan nilai ke default
 if st.button('Reset'):
     # Jika flag reset adalah False, atur state sesuai dengan nilai default
-    if not reset_flag:
+    if not st.session_state.reset_flag:
         st.session_state.state = {
             'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
             'sanitasi_buruk': default_values['sanitasi_buruk'],
@@ -95,7 +95,7 @@ if st.button('Reset'):
         }
 
         # Mengatur flag reset menjadi True setelah reset dilakukan
-        reset_flag = True
+        st.session_state.reset_flag = True
 
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
