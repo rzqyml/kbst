@@ -9,7 +9,7 @@ kbst_model = pickle.load(open('kbst_model.sav', 'rb'))
 st.title('SISTEM PREDIKSI KELUARGA BERESIKO STUNTING')
 
 # Membuat kolom dengan 2 bagian
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns([1, 1, 2])
 
 # Nilai default untuk setiap input
 default_values = {
@@ -58,7 +58,7 @@ with col2:
 kbst_diagnosis = ''
 
 # Tombol untuk prediksi
-if st.button('Lakukan Prediksi'):
+if col3.button('Lakukan Prediksi'):
     # Menggunakan model untuk melakukan prediksi
     input_data = {key: int(value) if value.isdigit() and int(value) in [0, 1] else None for key, value in st.session_state.state.items()}
 
@@ -82,7 +82,7 @@ if st.button('Lakukan Prediksi'):
         st.session_state.reset_flag = False
 
 # Tombol reset untuk mengembalikan nilai ke default
-if st.button('Reset'):
+if col3.button('Reset'):
     # Jika flag reset adalah False, atur state sesuai dengan nilai default
     if not st.session_state.reset_flag:
         st.session_state.state = {
@@ -96,8 +96,6 @@ if st.button('Reset'):
 
         # Mengatur flag reset menjadi True setelah reset dilakukan
         st.session_state.reset_flag = True
-        # Mengatur flag reset menjadi False setelah reset dilakukan
-        st.session_state.reset_flag = False
 
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
