@@ -13,41 +13,41 @@ col1, col2 = st.columns(2)
 
 # nilai default untuk setiap input
 default_values = {
-    'sumber_air_minum_buruk': '',
-    'sanitasi_buruk': '',
-    'terlalu_muda_istri': '',
-    'terlalu_tua_istri': '',
-    'terlalu_dekat_umur': '',
-    'terlalu_banyak_anak': ''
+    'sumber_air_minum_buruk': 'Pilih',
+    'sanitasi_buruk': 'Pilih',
+    'terlalu_muda_istri': 'Pilih',
+    'terlalu_tua_istri': 'Pilih',
+    'terlalu_dekat_umur': 'Pilih',
+    'terlalu_banyak_anak': 'Pilih'
 }
 
 # Input untuk pertanyaan-pertanyaan
 with col1:
-    sumber_air_minum_buruk = st.selectbox('Apakah Sumber Air Minum Buruk?', ['Tidak', 'Ya'], help='Deskripsi pertanyaan ini.')
+    sumber_air_minum_buruk = st.selectbox('Apakah Sumber Air Minum Buruk?', ['Pilih', 'Ya', 'Tidak'])
 
 with col2:
-    sanitasi_buruk = st.selectbox('Apakah Sanitasi Buruk?', ['Tidak', 'Ya'], help='Deskripsi pertanyaan ini.')
+    sanitasi_buruk = st.selectbox('Apakah Sanitasi Buruk?', ['Pilih', 'Ya', 'Tidak'])
 
 with col1:
-    terlalu_muda_istri = st.selectbox('Apakah Istri Terlalu Muda?', ['Tidak', 'Ya'], help='Deskripsi pertanyaan ini.')
+    terlalu_muda_istri = st.selectbox('Apakah Istri Terlalu Muda?', ['Pilih', 'Ya', 'Tidak'])
 
 with col2:
-    terlalu_tua_istri = st.selectbox('Apakah Istri Terlalu Tua?', ['Tidak', 'Ya'], help='Deskripsi pertanyaan ini.')
+    terlalu_tua_istri = st.selectbox('Apakah Istri Terlalu Tua?', ['Pilih', 'Ya', 'Tidak'])
 
 with col1:
-    terlalu_dekat_umur = st.selectbox('Apakah Umur Suami & Istri Terlalu Dekat?', ['Tidak', 'Ya'], help='Deskripsi pertanyaan ini.')
+    terlalu_dekat_umur = st.selectbox('Apakah Umur Suami & Istri Terlalu Dekat?', ['Pilih', 'Ya', 'Tidak'])
 
 with col2:
-    terlalu_banyak_anak = st.selectbox('Apakah Memiliki Banyak Anak?', ['Tidak', 'Ya'], help='Deskripsi pertanyaan ini.')
+    terlalu_banyak_anak = st.selectbox('Apakah Memiliki Banyak Anak?', ['Pilih', 'Ya', 'Tidak'])
 
 # variabel untuk hasil prediksi
 kbst_diagnosis = ''
 
 # membuat tombol untuk prediksi
 if st.button('Lakukan Prediksi'):
-    # labelling Ya = 1 dan No = 0
+    # labelling 'Ya' menjadi 1 dan 'Tidak' menjadi 0
     mapping = {'Ya': 1, 'Tidak': 0}
-    
+
     # menggunakan model untuk melakukan prediksi
     input_data = {
         'sumber_air_minum_buruk': sumber_air_minum_buruk,
@@ -58,15 +58,18 @@ if st.button('Lakukan Prediksi'):
         'terlalu_banyak_anak': terlalu_banyak_anak
     }
 
-    # labelling mapping 'Ya' dan 'Tidak' ke 1 dan 0
+    # mengganti nilai 'Pilih' menjadi nilai kosong
+    input_data = {key: '' if value == 'Pilih' else value for key, value in input_data.items()}
+
+    # melakukan mapping 'Ya' dan 'Tidak' ke 1 dan 0
     input_data_mapped = {key: mapping[value] for key, value in input_data.items()}
 
-    # Membuat DataFrame dari input untuk memudahkan prediksi
+    # membuat dataframe dari input untuk memudahkan prediksi
     input_df = pd.DataFrame([input_data_mapped])
 
     kbst_prediction = kbst_model.predict(input_df)
 
-    # Menyusun diagnosa berdasarkan hasil prediksi
+    #menyusun diagnosa berdasarkan hasil prediksi
     if kbst_prediction[0] == 1:
         kbst_diagnosis = 'Keluarga Beresiko Stunting'
     else:
@@ -81,5 +84,5 @@ if st.button('Reset'):
     terlalu_dekat_umur = default_values['terlalu_dekat_umur']
     terlalu_banyak_anak = default_values['terlalu_banyak_anak']
 
-# Menampilkan hasil diagnosa
+# menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
