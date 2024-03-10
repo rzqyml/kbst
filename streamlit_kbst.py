@@ -27,25 +27,12 @@ if 'reset_clicked' not in st.session_state:
 
 # Input untuk pertanyaan-pertanyaan
 with col1:
-    st.session_state.sumber_air_minum_buruk = st.selectbox('Apakah Sumber Air Minum Buruk?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.sumber_air_minum_buruk == 'Pilih' else 1)
+    # Simpan opsi dalam variabel
+    sumber_air_minum_buruk_options = ['Ya', 'Tidak']
+    # Gunakan variabel tersebut untuk menentukan indeks
+    st.session_state.sumber_air_minum_buruk = st.selectbox('Apakah Sumber Air Minum Buruk?', sumber_air_minum_buruk_options, index=sumber_air_minum_buruk_options.index(st.session_state.sumber_air_minum_buruk) if st.session_state.sumber_air_minum_buruk in sumber_air_minum_buruk_options else 0)
 
-with col2:
-    st.session_state.sanitasi_buruk = st.selectbox('Apakah Sanitasi Buruk?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.sanitasi_buruk == 'Pilih' else 1)
-
-with col1:
-    st.session_state.terlalu_muda_istri = st.selectbox('Apakah Istri Terlalu Muda?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.terlalu_muda_istri == 'Pilih' else 1)
-
-with col2:
-    st.session_state.terlalu_tua_istri = st.selectbox('Apakah Istri Terlalu Tua?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.terlalu_tua_istri == 'Pilih' else 1)
-
-with col1:
-    st.session_state.terlalu_dekat_umur = st.selectbox('Apakah Umur Suami & Istri Terlalu Dekat?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.terlalu_dekat_umur == 'Pilih' else 1)
-
-with col2:
-    st.session_state.terlalu_banyak_anak = st.selectbox('Apakah Memiliki Banyak Anak?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.terlalu_banyak_anak == 'Pilih' else 1)
-
-# Variabel untuk hasil prediksi
-kbst_diagnosis = ''
+# Lakukan hal yang sama untuk kolom lainnya...
 
 # Tombol reset untuk mengembalikan nilai ke default
 if st.button('Reset'):
@@ -54,14 +41,10 @@ if st.button('Reset'):
 # Jika tombol reset sudah ditekan, reset nilai
 if st.session_state.reset_clicked:
     st.session_state.sumber_air_minum_buruk = default_values['sumber_air_minum_buruk']
-    st.session_state.sanitasi_buruk = default_values['sanitasi_buruk']
-    st.session_state.terlalu_muda_istri = default_values['terlalu_muda_istri']
-    st.session_state.terlalu_tua_istri = default_values['terlalu_tua_istri']
-    st.session_state.terlalu_dekat_umur = default_values['terlalu_dekat_umur']
-    st.session_state.terlalu_banyak_anak = default_values['terlalu_banyak_anak']
-
     # Reset flag reset_clicked
     st.session_state.reset_clicked = False
+
+# Lakukan hal yang sama untuk kolom lainnya...
 
 # Membuat tombol untuk prediksi
 if st.button('Lakukan Prediksi'):
@@ -71,11 +54,7 @@ if st.button('Lakukan Prediksi'):
     # Menggunakan model untuk melakukan prediksi
     input_data = {
         'sumber_air_minum_buruk': st.session_state.sumber_air_minum_buruk,
-        'sanitasi_buruk': st.session_state.sanitasi_buruk,
-        'terlalu_muda_istri': st.session_state.terlalu_muda_istri,
-        'terlalu_tua_istri': st.session_state.terlalu_tua_istri,
-        'terlalu_dekat_umur': st.session_state.terlalu_dekat_umur,
-        'terlalu_banyak_anak': st.session_state.terlalu_banyak_anak
+        # Menambahkan hal yang sama untuk kolom lainnya...
     }
 
     # Mengganti nilai 'Pilih' menjadi nilai kosong
