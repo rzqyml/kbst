@@ -37,22 +37,22 @@ if 'state' not in st.session_state:
 
 # Input untuk pertanyaan-pertanyaan
 with col1:
-    st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (0/1)', st.session_state.state['sumber_air_minum_buruk'])
+    st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (1=Ya, 0=Tidak)', st.session_state.state['sumber_air_minum_buruk'])
 
 with col2:
-    st.session_state.state['terlalu_muda_istri'] = st.text_input('Apakah Umur Istri Terlalu Muda? (0/1)', st.session_state.state['terlalu_muda_istri'])
+    st.session_state.state['terlalu_muda_istri'] = st.text_input('Apakah Umur Istri Terlalu Muda? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_muda_istri'])
 
 with col3:
-    st.session_state.state['terlalu_dekat_umur'] = st.text_input('Apakah Umur Suami & Istri Terlalu Dekat? (0/1)', st.session_state.state['terlalu_dekat_umur'])
+    st.session_state.state['terlalu_dekat_umur'] = st.text_input('Apakah Umur Suami & Istri Terlalu Dekat? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_dekat_umur'])
 
 with col1:
-    st.session_state.state['sanitasi_buruk'] = st.text_input('Apakah Sanitasi Buruk? (0/1)', st.session_state.state['sanitasi_buruk'])
+    st.session_state.state['sanitasi_buruk'] = st.text_input('Apakah Sanitasi Buruk? (1=Ya, 0=Tidak)', st.session_state.state['sanitasi_buruk'])
 
 with col2:
-    st.session_state.state['terlalu_tua_istri'] = st.text_input('Apakah Istri Terlalu Tua? (0/1)', st.session_state.state['terlalu_tua_istri'])
+    st.session_state.state['terlalu_tua_istri'] = st.text_input('Apakah Istri Terlalu Tua? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_tua_istri'])
 
 with col3:
-    st.session_state.state['terlalu_banyak_anak'] = st.text_input('Apakah Memiliki Banyak Anak? (0/1)', st.session_state.state['terlalu_banyak_anak'])
+    st.session_state.state['terlalu_banyak_anak'] = st.text_input('Apakah Memiliki Banyak Anak? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_banyak_anak'])
 
 # Variabel untuk hasil prediksi
 kbst_diagnosis = ''
