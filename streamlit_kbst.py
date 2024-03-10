@@ -21,38 +21,24 @@ default_values = {
     'terlalu_banyak_anak': '0'
 }
 
-# Mengecek dan menginisialisasi state jika belum ada
-if 'reset_flag' not in st.session_state:
-    st.session_state.reset_flag = False
-
-if 'state' not in st.session_state:
-    st.session_state.state = {
-        'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
-        'sanitasi_buruk': default_values['sanitasi_buruk'],
-        'terlalu_muda_istri': default_values['terlalu_muda_istri'],
-        'terlalu_tua_istri': default_values['terlalu_tua_istri'],
-        'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
-        'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
-    }
-
 # Input untuk pertanyaan-pertanyaan
 with col1:
-    st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (0/1)', st.session_state.state['sumber_air_minum_buruk'])
+    sumber_air_minum_buruk = st.text_input('Apakah Sumber Air Minum Buruk? (0/1)', default_values['sumber_air_minum_buruk'])
 
 with col2:
-    st.session_state.state['sanitasi_buruk'] = st.text_input('Apakah Sanitasi Buruk? (0/1)', st.session_state.state['sanitasi_buruk'])
+    sanitasi_buruk = st.text_input('Apakah Sanitasi Buruk? (0/1)', default_values['sanitasi_buruk'])
 
 with col1:
-    st.session_state.state['terlalu_muda_istri'] = st.text_input('Apakah Istri Terlalu Muda? (0/1)', st.session_state.state['terlalu_muda_istri'])
+    terlalu_muda_istri = st.text_input('Apakah Istri Terlalu Muda? (0/1)', default_values['terlalu_muda_istri'])
 
 with col2:
-    st.session_state.state['terlalu_tua_istri'] = st.text_input('Apakah Istri Terlalu Tua? (0/1)', st.session_state.state['terlalu_tua_istri'])
+    terlalu_tua_istri = st.text_input('Apakah Istri Terlalu Tua? (0/1)', default_values['terlalu_tua_istri'])
 
 with col1:
-    st.session_state.state['terlalu_dekat_umur'] = st.text_input('Apakah Umur Suami & Istri Terlalu Dekat? (0/1)', st.session_state.state['terlalu_dekat_umur'])
+    terlalu_dekat_umur = st.text_input('Apakah Umur Suami & Istri Terlalu Dekat? (0/1)', default_values['terlalu_dekat_umur'])
 
 with col2:
-    st.session_state.state['terlalu_banyak_anak'] = st.text_input('Apakah Memiliki Banyak Anak? (0/1)', st.session_state.state['terlalu_banyak_anak'])
+    terlalu_banyak_anak = st.text_input('Apakah Memiliki Banyak Anak? (0/1)', default_values['terlalu_banyak_anak'])
 
 # Variabel untuk hasil prediksi
 kbst_diagnosis = ''
@@ -60,12 +46,18 @@ kbst_diagnosis = ''
 # Tombol untuk prediksi
 if st.button('Lakukan Prediksi'):
     # Menggunakan model untuk melakukan prediksi
-    input_data = {key: int(value) if value.isdigit() and int(value) in [0, 1] else None for key, value in st.session_state.state.items()}
+    input_data = {
+        'sumber_air_minum_buruk': int(sumber_air_minum_buruk) if sumber_air_minum_buruk.isdigit() and int(sumber_air_minum_buruk) in [0, 1] else None,
+        'sanitasi_buruk': int(sanitasi_buruk) if sanitasi_buruk.isdigit() and int(sanitasi_buruk) in [0, 1] else None,
+        'terlalu_muda_istri': int(terlalu_muda_istri) if terlalu_muda_istri.isdigit() and int(terlalu_muda_istri) in [0, 1] else None,
+        'terlalu_tua_istri': int(terlalu_tua_istri) if terlalu_tua_istri.isdigit() and int(terlalu_tua_istri) in [0, 1] else None,
+        'terlalu_dekat_umur': int(terlalu_dekat_umur) if terlalu_dekat_umur.isdigit() and int(terlalu_dekat_umur) in [0, 1] else None,
+        'terlalu_banyak_anak': int(terlalu_banyak_anak) if terlalu_banyak_anak.isdigit() and int(terlalu_banyak_anak) in [0, 1] else None,
+    }
 
     # Jika ada nilai yang tidak valid, beri tahu pengguna
     if None in input_data.values():
         st.error('Masukkan hanya angka 0 atau 1.')
-
     else:
         # Membuat DataFrame dari input untuk memudahkan prediksi
         input_df = pd.DataFrame([input_data])
@@ -78,27 +70,14 @@ if st.button('Lakukan Prediksi'):
         else:
             kbst_diagnosis = 'Keluarga Tidak Beresiko Stunting'
 
-        # Mengatur flag reset menjadi False setelah prediksi
-        st.session_state.reset_flag = False
-
 # Tombol reset untuk mengembalikan nilai ke default
 if st.button('Reset'):
-    # Jika flag reset adalah False, atur state sesuai dengan nilai default
-    if not st.session_state.reset_flag:
-        st.session_state.state = {
-            'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
-            'sanitasi_buruk': default_values['sanitasi_buruk'],
-            'terlalu_muda_istri': default_values['terlalu_muda_istri'],
-            'terlalu_tua_istri': default_values['terlalu_tua_istri'],
-            'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
-            'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
-        }
-
-        # Mengatur flag reset menjadi True setelah reset dilakukan
-        st.session_state.reset_flag = True
-
-    # Mengatur flag reset menjadi False setelah reset dilakukan
-    st.session_state.reset_flag = False
+    sumber_air_minum_buruk = default_values['sumber_air_minum_buruk']
+    sanitasi_buruk = default_values['sanitasi_buruk']
+    terlalu_muda_istri = default_values['terlalu_muda_istri']
+    terlalu_tua_istri = default_values['terlalu_tua_istri']
+    terlalu_dekat_umur = default_values['terlalu_dekat_umur']
+    terlalu_banyak_anak = default_values['terlalu_banyak_anak']
 
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
