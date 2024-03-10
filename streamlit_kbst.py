@@ -32,6 +32,9 @@ if 'state' not in st.session_state:
         'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
     }
 
+# Flag untuk menandai reset
+reset_flag = False
+
 # Input untuk pertanyaan-pertanyaan
 with col1:
     st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (0/1)', st.session_state.state['sumber_air_minum_buruk'])
@@ -75,17 +78,24 @@ if st.button('Lakukan Prediksi'):
         else:
             kbst_diagnosis = 'Keluarga Tidak Beresiko Stunting'
 
+        # Mengatur flag reset menjadi False setelah prediksi
+        reset_flag = False
+
 # Tombol reset untuk mengembalikan nilai ke default
 if st.button('Reset'):
-    # Session state untuk menyimpan data sementara hasil inputan
-    st.session_state.state = {
-        'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
-        'sanitasi_buruk': default_values['sanitasi_buruk'],
-        'terlalu_muda_istri': default_values['terlalu_muda_istri'],
-        'terlalu_tua_istri': default_values['terlalu_tua_istri'],
-        'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
-        'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
-    }
+    # Jika flag reset adalah False, atur state sesuai dengan nilai default
+    if not reset_flag:
+        st.session_state.state = {
+            'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
+            'sanitasi_buruk': default_values['sanitasi_buruk'],
+            'terlalu_muda_istri': default_values['terlalu_muda_istri'],
+            'terlalu_tua_istri': default_values['terlalu_tua_istri'],
+            'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
+            'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
+        }
+
+        # Mengatur flag reset menjadi True setelah reset dilakukan
+        reset_flag = True
 
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
