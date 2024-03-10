@@ -28,9 +28,12 @@ if 'reset_clicked' not in st.session_state:
 # Input untuk pertanyaan-pertanyaan
 with col1:
     # Simpan opsi dalam variabel
-    sumber_air_minum_buruk_options = ['Ya', 'Tidak']
+    sumber_air_minum_buruk_options = ['Pilih', 'Ya', 'Tidak']
     # Gunakan variabel tersebut untuk menentukan indeks
-    st.session_state.sumber_air_minum_buruk = st.selectbox('Apakah Sumber Air Minum Buruk?', sumber_air_minum_buruk_options, index=sumber_air_minum_buruk_options.index(st.session_state.sumber_air_minum_buruk) if st.session_state.sumber_air_minum_buruk in sumber_air_minum_buruk_options else 0)
+    selected_option = st.selectbox('Apakah Sumber Air Minum Buruk?', sumber_air_minum_buruk_options, index=sumber_air_minum_buruk_options.index(st.session_state.sumber_air_minum_buruk) if st.session_state.sumber_air_minum_buruk in sumber_air_minum_buruk_options else 0)
+    # Update session state hanya jika ada perubahan
+    if st.session_state.sumber_air_minum_buruk != selected_option:
+        st.session_state.sumber_air_minum_buruk = selected_option
 
 # Lakukan hal yang sama untuk kolom lainnya...
 
