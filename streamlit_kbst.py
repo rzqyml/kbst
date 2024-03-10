@@ -40,7 +40,7 @@ with col1:
     st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (0/1)', st.session_state.state['sumber_air_minum_buruk'])
 
 with col2:
-    st.session_state.state['terlalu_muda_istri'] = st.text_input('Apakah Istri Terlalu Muda? (0/1)', st.session_state.state['terlalu_muda_istri'])
+    st.session_state.state['terlalu_muda_istri'] = st.text_input('Apakah Umur Istri Terlalu Muda? (0/1)', st.session_state.state['terlalu_muda_istri'])
 
 with col3:
     st.session_state.state['terlalu_dekat_umur'] = st.text_input('Apakah Umur Suami & Istri Terlalu Dekat? (0/1)', st.session_state.state['terlalu_dekat_umur'])
