@@ -21,24 +21,35 @@ default_values = {
     'terlalu_banyak_anak': 'Pilih'
 }
 
-# Input untuk pertanyaan-pertanyaan
+# mengecek dan menginisialisasi state jika belum ada
+if 'state' not in st.session_state:
+    st.session_state.state = {
+        'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
+        'sanitasi_buruk': default_values['sanitasi_buruk'],
+        'terlalu_muda_istri': default_values['terlalu_muda_istri'],
+        'terlalu_tua_istri': default_values['terlalu_tua_istri'],
+        'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
+        'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
+    }
+
+# input untuk pertanyaan-pertanyaan
 with col1:
-    sumber_air_minum_buruk = st.selectbox('Apakah Sumber Air Minum Buruk?', ['Pilih', 'Ya', 'Tidak'])
+    st.session_state.state['sumber_air_minum_buruk'] = st.selectbox('Apakah Sumber Air Minum Buruk?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.state['sumber_air_minum_buruk'] == 'Pilih' else 1)
 
 with col2:
-    sanitasi_buruk = st.selectbox('Apakah Sanitasi Buruk?', ['Pilih', 'Ya', 'Tidak'])
+    st.session_state.state['sanitasi_buruk'] = st.selectbox('Apakah Sanitasi Buruk?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.state['sanitasi_buruk'] == 'Pilih' else 1)
 
 with col1:
-    terlalu_muda_istri = st.selectbox('Apakah Istri Terlalu Muda?', ['Pilih', 'Ya', 'Tidak'])
+    st.session_state.state['terlalu_muda_istri'] = st.selectbox('Apakah Istri Terlalu Muda?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.state['terlalu_muda_istri'] == 'Pilih' else 1)
 
 with col2:
-    terlalu_tua_istri = st.selectbox('Apakah Istri Terlalu Tua?', ['Pilih', 'Ya', 'Tidak'])
+    st.session_state.state['terlalu_tua_istri'] = st.selectbox('Apakah Istri Terlalu Tua?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.state['terlalu_tua_istri'] == 'Pilih' else 1)
 
 with col1:
-    terlalu_dekat_umur = st.selectbox('Apakah Umur Suami & Istri Terlalu Dekat?', ['Pilih', 'Ya', 'Tidak'])
+    st.session_state.state['terlalu_dekat_umur'] = st.selectbox('Apakah Umur Suami & Istri Terlalu Dekat?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.state['terlalu_dekat_umur'] == 'Pilih' else 1)
 
 with col2:
-    terlalu_banyak_anak = st.selectbox('Apakah Memiliki Banyak Anak?', ['Pilih', 'Ya', 'Tidak'])
+    st.session_state.state['terlalu_banyak_anak'] = st.selectbox('Apakah Memiliki Banyak Anak?', ['Pilih', 'Ya', 'Tidak'], index=0 if st.session_state.state['terlalu_banyak_anak'] == 'Pilih' else 1)
 
 # variabel untuk hasil prediksi
 kbst_diagnosis = ''
@@ -49,16 +60,9 @@ if st.button('Lakukan Prediksi'):
     mapping = {'Ya': 1, 'Tidak': 0}
 
     # menggunakan model untuk melakukan prediksi
-    input_data = {
-        'sumber_air_minum_buruk': sumber_air_minum_buruk,
-        'sanitasi_buruk': sanitasi_buruk,
-        'terlalu_muda_istri': terlalu_muda_istri,
-        'terlalu_tua_istri': terlalu_tua_istri,
-        'terlalu_dekat_umur': terlalu_dekat_umur,
-        'terlalu_banyak_anak': terlalu_banyak_anak
-    }
+    input_data = {key: value if value != 'Pilih' else '' for key, value in st.session_state.state.items()}
 
-    # mengganti nilai 'Pilih' menjadi nilai kosong
+    # Mengganti nilai 'Pilih' menjadi nilai kosong
     input_data = {key: '' if value == 'Pilih' else value for key, value in input_data.items()}
 
     # melakukan mapping 'Ya' dan 'Tidak' ke 1 dan 0
@@ -78,12 +82,14 @@ if st.button('Lakukan Prediksi'):
 # tombol reset untuk mengembalikan nilai ke default
 if st.button('Reset'):
     # session state untuk menyimpan data sementara hasil inputan
-    st.session_state.sumber_air_minum_buruk = default_values['sumber_air_minum_buruk']
-    st.session_state.sanitasi_buruk = default_values['sanitasi_buruk']
-    st.session_state.terlalu_muda_istri = default_values['terlalu_muda_istri']
-    st.session_state.terlalu_tua_istri = default_values['terlalu_tua_istri']
-    st.session_state.terlalu_dekat_umur = default_values['terlalu_dekat_umur']
-    st.session_state.terlalu_banyak_anak = default_values['terlalu_banyak_anak']
+    st.session_state.state = {
+        'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
+        'sanitasi_buruk': default_values['sanitasi_buruk'],
+        'terlalu_muda_istri': default_values['terlalu_muda_istri'],
+        'terlalu_tua_istri': default_values['terlalu_tua_istri'],
+        'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
+        'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
+    }
 
 # menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
