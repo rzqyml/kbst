@@ -10,6 +10,16 @@ st.title('SISTEM PREDIKSI KELUARGA BERESIKO STUNTING')
 # membuat kolom dengan 2 bagian
 col1, col2 = st.columns(2)
 
+# nilai default untuk setiap input
+default_values = {
+    'sumber_air_minum_buruk': '',
+    'sanitasi_buruk': '',
+    'terlalu_muda_istri': '',
+    'terlalu_tua_istri': '',
+    'terlalu_dekat_umur': '',
+    'terlalu_banyak_anak': ''
+}
+
 # Input untuk pertanyaan-pertanyaan
 with col1:
     sumber_air_minum_buruk = st.number_input('Apakah Sumber Air Minum Buruk?', step=1, value=1)
