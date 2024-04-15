@@ -27,7 +27,6 @@ if 'reset_flag' not in st.session_state:
 
 if 'state' not in st.session_state:
     st.session_state.state = {
-        'index': 0,
         'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
         'sanitasi_buruk': default_values['sanitasi_buruk'],
         'terlalu_muda_istri': default_values['terlalu_muda_istri'],
@@ -36,27 +35,11 @@ if 'state' not in st.session_state:
         'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
     }
 
-# Input untuk pertanyaan-pertanyaan
-with col1:
-    st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (1=Ya, 0=Tidak)', st.session_state.state['sumber_air_minum_buruk'])
-
-with col2:
-    st.session_state.state['terlalu_muda_istri'] = st.text_input('Apakah Umur Istri Terlalu Muda? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_muda_istri'])
-
-with col3:
-    st.session_state.state['terlalu_dekat_umur'] = st.text_input('Apakah Umur Suami & Istri Terlalu Dekat? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_dekat_umur'])
-
-with col1:
-    st.session_state.state['sanitasi_buruk'] = st.text_input('Apakah Sanitasi Buruk? (1=Ya, 0=Tidak)', st.session_state.state['sanitasi_buruk'])
-
-with col2:
-    st.session_state.state['terlalu_tua_istri'] = st.text_input('Apakah Istri Terlalu Tua? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_tua_istri'])
-
-with col3:
-    st.session_state.state['terlalu_banyak_anak'] = st.text_input('Apakah Memiliki Banyak Anak? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_banyak_anak'])
-
 # Variabel untuk hasil prediksi
 kbst_diagnosis = ''
+
+# Dataframe untuk menyimpan input dan hasil prediksi
+input_results = []
 
 # Tombol untuk prediksi
 if st.button('Lakukan Prediksi'):
@@ -82,12 +65,16 @@ if st.button('Lakukan Prediksi'):
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
 
+        # Menambahkan data input dan hasil prediksi ke dataframe
+        input_result = st.session_state.state.copy()
+        input_result['Hasil Prediksi'] = kbst_diagnosis
+        input_results.append(input_result)
+
 # Tombol reset untuk mengembalikan nilai ke default
 if st.button('Reset'):
     # Jika flag reset adalah False, atur state sesuai dengan nilai default
     if not st.session_state.reset_flag:
         st.session_state.state = {
-            'index': st.session_state.state['index'] + 1,
             'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
             'sanitasi_buruk': default_values['sanitasi_buruk'],
             'terlalu_muda_istri': default_values['terlalu_muda_istri'],
@@ -102,13 +89,11 @@ if st.button('Reset'):
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
 
-# Dataframe untuk menyimpan input dan hasil prediksi
-input_result_df = pd.DataFrame([st.session_state.state])
-input_result_df['Hasil Prediksi'] = kbst_diagnosis
-
-# Tombol untuk mengunduh dataframe
-if not input_result_df.empty:
+# Menampilkan dataframe hasil prediksi
+if input_results:
     st.write('Dataframe Hasil Prediksi:')
-    st.write(input_result_df)
-    csv = input_result_df.to_csv(index=False)
+    input_results_df = pd.DataFrame(input_results)
+    input_results_df.index = range(1, len(input_results_df) + 1)  # Menyamakan indeks dengan jumlah prediksi yang dilakukan
+    st.write(input_results_df)
+    csv = input_results_df.to_csv(index=False)
     st.download_button('Unduh Dataframe Hasil Prediksi', csv, 'predicted_results.csv')
