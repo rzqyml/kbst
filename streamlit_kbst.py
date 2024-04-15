@@ -35,6 +35,9 @@ if 'state' not in st.session_state:
         'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
     }
 
+# Inisialisasi dataframe kosong
+input_result_df = pd.DataFrame()
+
 # Input untuk pertanyaan-pertanyaan
 with col1:
     st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (1=Ya, 0=Tidak)', st.session_state.state['sumber_air_minum_buruk'])
@@ -78,6 +81,10 @@ if st.button('Lakukan Prediksi'):
         else:
             kbst_diagnosis = '0'
 
+        # Menambahkan hasil prediksi ke dataframe
+        input_df['Hasil Prediksi'] = kbst_diagnosis
+        input_result_df = input_result_df.append(input_df, ignore_index=True)
+
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
 
@@ -100,14 +107,9 @@ if st.button('Reset'):
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
 
-# Dataframe untuk menyimpan input dan hasil prediksi
-input_result_df = pd.DataFrame([st.session_state.state])
-input_result_df['Hasil Prediksi'] = kbst_diagnosis
-
 # Tombol untuk mengunduh dataframe
 if not input_result_df.empty:
     st.write('Dataframe Hasil Prediksi:')
     st.write(input_result_df)
     csv = input_result_df.to_csv(index=False)
     st.download_button('Unduh Dataframe Hasil Prediksi', csv, 'predicted_results.csv')
-
