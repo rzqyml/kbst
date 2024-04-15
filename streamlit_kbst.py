@@ -27,6 +27,7 @@ if 'reset_flag' not in st.session_state:
 
 if 'state' not in st.session_state:
     st.session_state.state = {
+        'index': 0,
         'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
         'sanitasi_buruk': default_values['sanitasi_buruk'],
         'terlalu_muda_istri': default_values['terlalu_muda_istri'],
@@ -86,6 +87,7 @@ if st.button('Reset'):
     # Jika flag reset adalah False, atur state sesuai dengan nilai default
     if not st.session_state.reset_flag:
         st.session_state.state = {
+            'index': st.session_state.state['index'] + 1,
             'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
             'sanitasi_buruk': default_values['sanitasi_buruk'],
             'terlalu_muda_istri': default_values['terlalu_muda_istri'],
