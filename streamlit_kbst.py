@@ -53,11 +53,8 @@ if st.button('Lakukan Prediksi'):
 
         kbst_prediction = kbst_model.predict(input_df)
 
-        # Menyusun diagnosa berdasarkan hasil prediksi
-        if kbst_prediction[0] == 1:
-            kbst_diagnosis = 'Keluarga Beresiko Stunting'
-        else:
-            kbst_diagnosis = 'Keluarga Tidak Beresiko Stunting'
+        # Mengubah hasil prediksi menjadi 1 atau 0
+        kbst_diagnosis = 1 if kbst_prediction[0] == 1 else 0
 
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
@@ -84,7 +81,9 @@ if st.button('Reset'):
         st.session_state.reset_flag = True
 
 # Menampilkan hasil prediksi
-st.success(f'Hasil Prediksi: {kbst_diagnosis}')
+if kbst_diagnosis != '':
+    diagnosis_text = 'Keluarga Beresiko Stunting' if kbst_diagnosis == 1 else 'Keluarga Tidak Beresiko Stunting'
+    st.success(f'Hasil Prediksi: {diagnosis_text}')
 
 # Menampilkan dataframe hasil prediksi
 if input_results:
