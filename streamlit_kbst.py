@@ -1,6 +1,6 @@
-import pickle
 import streamlit as st
 import pandas as pd
+import pickle
 
 # Membaca model
 kbst_model = pickle.load(open('kbst_model.sav', 'rb'))
@@ -99,3 +99,14 @@ if st.button('Reset'):
 
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
+
+# Dataframe untuk menyimpan input dan hasil prediksi
+input_result_df = pd.DataFrame([st.session_state.state])
+input_result_df['Hasil Prediksi'] = kbst_diagnosis
+
+# Tombol untuk mengunduh dataframe
+if not input_result_df.empty:
+    st.write('Dataframe Hasil Prediksi:')
+    st.write(input_result_df)
+    csv = input_result_df.to_csv(index=False)
+    st.download_button('Unduh Dataframe Hasil Prediksi', csv, 'predicted_results.csv')
