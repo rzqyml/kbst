@@ -88,22 +88,6 @@ if st.button('Lakukan Prediksi'):
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
 
-# Tombol reset untuk mengembalikan nilai ke default
-if st.button('Reset'):
-    # Jika flag reset adalah False, atur state sesuai dengan nilai default
-    if not st.session_state.reset_flag:
-        st.session_state.state = {
-            'sumber_air_minum_buruk': default_values['sumber_air_minum_buruk'],
-            'sanitasi_buruk': default_values['sanitasi_buruk'],
-            'terlalu_muda_istri': default_values['terlalu_muda_istri'],
-            'terlalu_tua_istri': default_values['terlalu_tua_istri'],
-            'terlalu_dekat_umur': default_values['terlalu_dekat_umur'],
-            'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
-        }
-
-        # Mengatur flag reset menjadi True setelah reset dilakukan
-        st.session_state.reset_flag = True
-
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
 
