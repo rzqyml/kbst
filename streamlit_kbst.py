@@ -74,9 +74,9 @@ if st.button('Lakukan Prediksi'):
 
         # Menyusun diagnosa berdasarkan hasil prediksi
         if kbst_prediction[0] == 1:
-            kbst_diagnosis = 'Keluarga Beresiko Stunting'
+            kbst_diagnosis = 1
         else:
-            kbst_diagnosis = 'Keluarga Tidak Beresiko Stunting'
+            kbst_diagnosis = 0
 
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
