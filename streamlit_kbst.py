@@ -1,6 +1,6 @@
+import pickle
 import streamlit as st
 import pandas as pd
-import pickle
 
 # Membaca model
 kbst_model = pickle.load(open('kbst_model.sav', 'rb'))
@@ -35,10 +35,7 @@ if 'state' not in st.session_state:
         'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
     }
 
-# Variabel untuk hasil prediksi
-kbst_diagnosis = ''
-
-# Dataframe untuk menyimpan input dan hasil prediksi
+# List untuk menyimpan data input dan hasil prediksi
 input_results = []
 
 # Tombol untuk prediksi
@@ -65,7 +62,7 @@ if st.button('Lakukan Prediksi'):
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
 
-        # Menambahkan data input dan hasil prediksi ke dataframe
+        # Menyimpan data input dan hasil prediksi ke dalam list
         input_result = st.session_state.state.copy()
         input_result['Hasil Prediksi'] = kbst_diagnosis
         input_results.append(input_result)
@@ -93,7 +90,6 @@ st.success(f'Hasil Prediksi: {kbst_diagnosis}')
 if input_results:
     st.write('Dataframe Hasil Prediksi:')
     input_results_df = pd.DataFrame(input_results)
-    input_results_df.index = range(1, len(input_results_df) + 1)  # Menyamakan indeks dengan jumlah prediksi yang dilakukan
     st.write(input_results_df)
     csv = input_results_df.to_csv(index=False)
     st.download_button('Unduh Dataframe Hasil Prediksi', csv, 'predicted_results.csv')
