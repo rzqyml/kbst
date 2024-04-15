@@ -35,27 +35,8 @@ if 'state' not in st.session_state:
         'terlalu_banyak_anak': default_values['terlalu_banyak_anak']
     }
 
-# Input untuk pertanyaan-pertanyaan
-with col1:
-    st.session_state.state['sumber_air_minum_buruk'] = st.text_input('Apakah Sumber Air Minum Buruk? (1=Ya, 0=Tidak)', st.session_state.state['sumber_air_minum_buruk'])
-
-with col2:
-    st.session_state.state['terlalu_muda_istri'] = st.text_input('Apakah Umur Istri Terlalu Muda? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_muda_istri'])
-
-with col3:
-    st.session_state.state['terlalu_dekat_umur'] = st.text_input('Apakah Umur Suami & Istri Terlalu Dekat? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_dekat_umur'])
-
-with col1:
-    st.session_state.state['sanitasi_buruk'] = st.text_input('Apakah Sanitasi Buruk? (1=Ya, 0=Tidak)', st.session_state.state['sanitasi_buruk'])
-
-with col2:
-    st.session_state.state['terlalu_tua_istri'] = st.text_input('Apakah Istri Terlalu Tua? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_tua_istri'])
-
-with col3:
-    st.session_state.state['terlalu_banyak_anak'] = st.text_input('Apakah Memiliki Banyak Anak? (1=Ya, 0=Tidak)', st.session_state.state['terlalu_banyak_anak'])
-
-# Variabel untuk hasil prediksi
-kbst_diagnosis = ''
+# List untuk menyimpan data input dan hasil prediksi
+input_results = []
 
 # Tombol untuk prediksi
 if st.button('Lakukan Prediksi'):
@@ -81,6 +62,11 @@ if st.button('Lakukan Prediksi'):
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
 
+        # Menyimpan data input dan hasil prediksi ke dalam list
+        input_result = st.session_state.state.copy()
+        input_result['Hasil Prediksi'] = kbst_diagnosis
+        input_results.append(input_result)
+
 # Tombol reset untuk mengembalikan nilai ke default
 if st.button('Reset'):
     # Jika flag reset adalah False, atur state sesuai dengan nilai default
@@ -99,3 +85,11 @@ if st.button('Reset'):
 
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
+
+# Menampilkan dataframe hasil prediksi
+if input_results:
+    st.write('Dataframe Hasil Prediksi:')
+    input_results_df = pd.DataFrame(input_results)
+    st.write(input_results_df)
+    csv = input_results_df.to_csv(index=False)
+    st.download_button('Unduh Dataframe Hasil Prediksi', csv, 'predicted_results.csv')
