@@ -91,6 +91,11 @@ if st.button('Lakukan Prediksi'):
         # Mengatur flag reset menjadi False setelah prediksi
         st.session_state.reset_flag = False
 
+# Tombol untuk menambahkan input data baru
+if st.button('Input Data Baru'):
+    # Menetapkan nilai default kembali
+    st.session_state.state = default_values.copy()
+
 # Menampilkan hasil prediksi
 st.success(f'Hasil Prediksi: {kbst_diagnosis}')
 
